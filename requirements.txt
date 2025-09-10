@@ -1,0 +1,27 @@
+# NABIMFD Data Pipeline Requirements
+# IMF Financial Data Extraction and Processing Dependencies
+
+# Web automation and browser control
+undetected-chromedriver>=3.5.0
+selenium>=4.15.0
+
+# Data processing and analysis
+pandas>=2.0.0
+xlsxwriter>=3.1.0
+
+# Date and time handling (included in Python standard library)
+# datetime - built-in module
+
+# System and file operations (included in Python standard library)  
+# os - built-in module
+# subprocess - built-in module
+# re - built-in module
+# time - built-in module
+# platform - built-in module
+# logging - built-in module
+
+# Optional: For enhanced data processing
+openpyxl>=3.1.0
+
+# Note: Chrome browser must be installed separately on the system
+# The undetected-chromedriver will automatically download the appropriate ChromeDriver
