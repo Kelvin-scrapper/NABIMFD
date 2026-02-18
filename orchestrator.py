@@ -17,18 +17,25 @@ import logging
 class NABIMFDOrchestrator:
     def __init__(self):
         """Initialize the NABIMFD orchestrator with logging setup"""
-        self.setup_logging()
         self.script_dir = os.path.dirname(os.path.abspath(__file__))
         self.downloads_dir = os.path.join(self.script_dir, "downloads")
+        self.output_dir = os.path.join(self.script_dir, "output")
+        self.log_dir = os.path.join(self.script_dir, "log")
         self.main_script = os.path.join(self.script_dir, "main.py")
         self.map_script = os.path.join(self.script_dir, "map.py")
         self.source_file = os.path.join(self.downloads_dir, "BORROWINGS.xls")
-        self.output_file = os.path.join(self.script_dir, "nabimfd_summary.xlsx")
+        self.output_file = os.path.join(self.output_dir, "NABIMFD_OUTPUT.xlsx")
+
+        # Create output and log directories
+        os.makedirs(self.output_dir, exist_ok=True)
+        os.makedirs(self.log_dir, exist_ok=True)
+
+        self.setup_logging()
         
     def setup_logging(self):
         """Setup logging configuration"""
-        log_filename = f"nabimfd_pipeline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
-        
+        log_filename = os.path.join(self.log_dir, f"nabimfd_pipeline_{datetime.now().strftime('%Y%m%d_%H%M%S')}.log")
+
         logging.basicConfig(
             level=logging.INFO,
             format='%(asctime)s - %(levelname)s - %(message)s',
@@ -201,9 +208,9 @@ class NABIMFDOrchestrator:
             cutoff_time = current_time - (keep_days * 24 * 60 * 60)  # Convert days to seconds
             
             # Clean up old log files
-            for filename in os.listdir(self.script_dir):
+            for filename in os.listdir(self.log_dir):
                 if filename.startswith('nabimfd_pipeline_') and filename.endswith('.log'):
-                    file_path = os.path.join(self.script_dir, filename)
+                    file_path = os.path.join(self.log_dir, filename)
                     if os.path.getmtime(file_path) < cutoff_time:
                         os.remove(file_path)
                         self.logger.info(f"Removed old log file: {filename}")

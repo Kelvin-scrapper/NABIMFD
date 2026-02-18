@@ -5,6 +5,7 @@ from datetime import datetime
 
 # --- Constants ---
 INPUT_DIR = 'downloads'
+OUTPUT_DIR = 'output'
 SOURCE_FILE = 'BORROWINGS.xls'  # Actually a TSV file
 OUTPUT_FILE = 'NABIMFD_OUTPUT.xlsx'
 
@@ -359,7 +360,9 @@ def main():
         combined_df = pd.DataFrame(final_data)
 
         # 6. Save the output to an Excel file with proper number formatting
-        output_file_path = os.path.join(os.getcwd(), OUTPUT_FILE)
+        output_dir_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), OUTPUT_DIR)
+        os.makedirs(output_dir_path, exist_ok=True)
+        output_file_path = os.path.join(output_dir_path, OUTPUT_FILE)
         
         # Create Excel writer with formatting options
         with pd.ExcelWriter(output_file_path, engine='xlsxwriter') as writer:
